@@ -3,7 +3,6 @@ module HW3 where
 import MiniMiniLogo
 import Render
 
-
 --
 -- * Semantics of MiniMiniLogo
 --
@@ -17,6 +16,8 @@ import Render
 
 -- | A type to represent the current state of the pen.
 type State = (Mode,Point)
+
+-- | Data maybe 
 
 -- | The initial state of the pen.
 start :: State
@@ -50,9 +51,10 @@ draw p = let (_,ls) = prog p start in toHTML ls
 --   ((Down,(4,5)),Just ((2,3),(4,5)))
 --
 cmd :: Cmd -> State -> (State, Maybe Line)
-cmd = undefined
-
-
+cmd (Pen r) (_ , (m, l))   = ((r,(m,l)),Nothing)		   
+cmd (Move r m) (l, (n, i)) = if (l==Up) 
+                             then ((Up,(r,m)),Nothing)    
+							 else ((Down,(r,m)),Just ((n,i),(r,m)))
 -- | Semantic function for Prog.
 --
 --   >>> prog (nix 10 10 5 7) start
